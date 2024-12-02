@@ -1,13 +1,14 @@
 import React from "react";
 import env from "react-dotenv";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class Shops extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            shops: [],  
-            isLoading: true,  
-            error: null,  
+            shops: [],
+            isLoading: true,
+            error: null,
         };
     }
 
@@ -21,7 +22,7 @@ export default class Shops extends React.Component {
                 method: "GET",
                 headers: {
                     "x-access-token": accessToken,
-                    "accept": "application/json",
+                    accept: "application/json",
                 },
             });
             if (!response.ok) {
@@ -29,18 +30,18 @@ export default class Shops extends React.Component {
             }
 
             const data = await response.json();
-            console.log("Dados recebidos:", data);
-
-            this.setState({ shops: data, isLoading: false });  
+            this.setState({ shops: data, isLoading: false });
         } catch (error) {
             console.error("Erro ao buscar interesses:", error);
-            this.setState({ error: error.message, isLoading: false });  
+            this.setState({ error: error.message, isLoading: false });
         }
     }
 
+
+
     render() {
         const { shops, isLoading, error } = this.state;
-        console.log(shops);
+
         if (isLoading) {
             return <p>Loading...</p>;
         }
@@ -49,39 +50,55 @@ export default class Shops extends React.Component {
             return <p>{`Erro: ${error}`}</p>;
         }
 
+        const sortedShops = Object.entries(shops).sort((a, b) => {
+            const nameA = a[1].title?.toUpperCase() || "";
+            const nameB = b[1].title?.toUpperCase() || "";
+            return nameA.localeCompare(nameB);
+        });
+
         return (
-            <div>
-                <h1>Shops</h1>
-                <ul>
-                    {shops && Object.keys(shops).length > 0 ? (
-                        Object.entries(shops).map(([key, shop]) => (
-                            <li key={key}>
-                                <h2>{shop.title || `Shop ${key}`}</h2>
-                                <img
-                                    src={shop.media}
-                                    alt={shop.title || `Shop ${key}`}
-                                    style={{ width: "200px", height: "auto" }}
-                                />
-                                <ul>
-                                    {Object.entries(shop).map(([property, value]) => (
-                                        <li key={property}>
-                                            <strong>{property}:</strong>{" "}
-                                            {Array.isArray(value)
-                                                ? value.join(", ") // Renderiza arrays como lista separada por vírgula
-                                                : typeof value === "object"
-                                                ? JSON.stringify(value) // Renderiza objetos aninhados como string
-                                                : String(value)} // Renderiza valores simples
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                        ))
-                    ) : (
-                        <li>No shops found</li>
-                    )}
-                </ul>
+            <div className="container">
+                <h1 className="my-4">Lojas</h1>
+                <div className="row">
+                    {sortedShops.map(([key, shop]) => (
+                        <div key={key} className="col-12 mb-4">
+                            <div className="card shadow-sm">
+                                <div className="card-body">
+                                    <div className="d-flex align-items-center">
+                                        <div
+                                            className="rounded-circle bg-secondary me-3"
+                                            style={{
+                                                width: "50px",
+                                                height: "50px",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                color: "white",
+                                            }}
+                                        >
+                                            <img
+                                                src={shop.media || "https://via.placeholder.com/50"}
+                                                alt={shop.title || "Loja"}
+                                                className="img-fluid rounded-circle"
+                                                style={{ width: "50px", height: "50px" }}
+                                            />
+                                        </div>
+                                        <h5 className="card-title m-0">{shop.title || `Loja ${key}`}</h5>
+                                    </div>
+                                    <div className="mt-3">
+                                        <p
+                                            className="card-text"
+                                            dangerouslySetInnerHTML={{
+                                                __html: shop.description || "Nenhuma descrição disponível.",
+                                            }}
+                                        ></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
         );
-             
     }
 }
