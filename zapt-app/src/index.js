@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Map from "./components/map";
+import Shops from "./components/shops";
 
 const App = () => {
     return (
         <div>
-            <h1>hello world</h1>
             <Map />
+            <Shops />
         </div>
     )
 }
