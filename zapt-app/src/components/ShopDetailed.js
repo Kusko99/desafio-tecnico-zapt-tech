@@ -1,9 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ShopDetailed = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { shop, shopsList } = location.state || {};
+
+    const handleShopClick = (selectedShop) => {
+        navigate("/details", { state: { shop: selectedShop, shopsList } });
+    };
 
     const closestShops = (shop, shopsList) => {
         const shopCoords = shop.coords;
@@ -67,22 +72,40 @@ const ShopDetailed = () => {
                             src={shop.media}
                             alt={shop.title}
                             className="img-fluid mb-3"
-                            style={{ maxHeight: "200px", objectFit: "cover" }}
+                            style={{
+                                width: "50%",
+                                height: "50%",
+                                objectFit: "cover"
+                            }}
                         />
-                        <h5 className="card-title">{shop.title}</h5>
+                        <h3 className="text-dark fw-bold mb-3">{shop.title}</h3>
+                        <div className="mt-3">
+                        <p
+                            className="card-text"
+                            dangerouslySetInnerHTML={{
+                                __html: shop.description || "Nenhuma descrição disponível.",
+                            }}
+                        ></p>
                     </div>
-                    <h6 className="text-muted mb-3">Nas proximidades</h6>
+                    </div>
+                    <h4 className="text-dark fw-bold mb-3">Nas proximidades:</h4>
                     <div className="row">
                         {closest.map((shopDetail, index) => (
-                            <div className="col-6" key={index}>
+                            <div className="col-12 col-md-6" key={index}
+                            onClick={() => handleShopClick(shopDetail.shop)}>
                                 <div className="border bg-light text-center py-3">
                                     <img
                                         src={shopDetail.shop.media}
                                         alt={shopDetail.shop.title}
                                         className="img-fluid mb-2"
-                                        style={{ maxHeight: "100px", objectFit: "cover" }}
+                                        style={{
+                                            width: "200px",
+                                            height: "200px"
+                                            , objectFit: "cover"
+                                        }}
                                     />
-                                    <p>{shopDetail.distance.toFixed(1)}m</p>
+                                    <p className="card-text" style={{ fontSize: "20px", fontWeight: "bold" }}>{shopDetail.shop.title}</p>
+                                    <p className="card-text" style={{ fontSize: "20px", fontWeight: "bold" }}>{shopDetail.distance.toFixed(1)}m</p>
                                 </div>
                             </div>
                         ))}
