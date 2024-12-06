@@ -5,8 +5,13 @@ Desafio técnico realizado como etapa do processo seletivo da Zapt Tech.
 
 Para instalar as dependências, basta rodar o seguinte comando na raiz do projeto:
 
+No linux e macOS:
 ``` 
-npm install
+cd ./zapt-app && npm install
+```
+No windows:
+```
+cd .\zapt-app\; npm install
 ```
 
 ## ⚙️ Configuração do Ambiente
@@ -23,6 +28,11 @@ ACCESS_TOKEN=SEU_TOKEN_DE_ACESSO
 
 Após configurar as variáveis de ambiente, você pode iniciar o projeto com o seguinte comando:
 
+No linux e macOS:
+```  
+cd ./zapt-app && npm start
 ```
-npm start
+No windows:
+```
+cd .\zapt-app\; npm start
 ```
