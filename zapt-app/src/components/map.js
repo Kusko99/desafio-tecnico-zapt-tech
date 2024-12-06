@@ -8,7 +8,7 @@ export default class Map extends Component {
         const iframeSrc = `https://app.zapt.tech/#/map?placeId=${placeId}&search=false&apiKey=${apiKey}`;
         return (
             <div>
-                <iframe className="flex-grow-1" src={iframeSrc} title="Map" width="100%" height="600"></iframe>
+                <iframe className="flex-grow-1" src={iframeSrc} title="Map" width="100%" height="94%"></iframe>
             </div>
         );
     }

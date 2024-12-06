@@ -1,8 +1,8 @@
 import React from "react";
 
-const ShopCard = ({ shop, key }) => {
+const ShopCard = ({ shop }) => {
     return (
-        <div key={key} className="col-12 mb-4">
+        <div className="col-12 mb-4">
             <div className="card shadow-sm">
                 <div className="card-body">
                     <div className="d-flex align-items-center">
@@ -24,20 +24,14 @@ const ShopCard = ({ shop, key }) => {
                                 style={{ width: "50px", height: "50px" }}
                             />
                         </div>
-                        <h5 className="card-title m-0">{shop.title || `Loja ${key}`}</h5>
+                        <h5 className="card-title m-0">{shop.title || `Loja ${shop.id}`}</h5>
                     </div>
-                    <div className="mt-3">
-                        <p
-                            className="card-text"
-                            dangerouslySetInnerHTML={{
-                                __html: shop.description || "Nenhuma descrição disponível.",
-                            }}
-                        ></p>
-                    </div>
+
                 </div>
             </div>
         </div>
     );
 };
+
 
 export default ShopCard;

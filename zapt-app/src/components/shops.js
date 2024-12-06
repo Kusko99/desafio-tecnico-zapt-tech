@@ -46,7 +46,13 @@ export default function Shops() {
     };
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+                <div className="spinner-border text-secondary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
     }
 
     if (error) {
@@ -65,9 +71,10 @@ export default function Shops() {
             <div className="row">
                 {sortedShops.map(([key, shop]) => (
                     <div key={shop.id} onClick={() => handleCardClick(shop)}>
-                        <ShopCard key={key} shop={shop} />
+                        <ShopCard shop={shop} />
                     </div>
                 ))}
+
             </div>
         </div>
     );
